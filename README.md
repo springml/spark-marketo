@@ -1,1 +1,1 @@
-# Spark Marketo Library
+# Spark Marketo Connector
