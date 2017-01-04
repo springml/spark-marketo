@@ -1,5 +1,6 @@
 package com.springml.spark.marketo
 
+import com.springml.spark.marketo.model.MarketoInput
 import org.apache.log4j.Logger
 import org.apache.spark.sql.sources.{BaseRelation, CreatableRelationProvider, RelationProvider, SchemaRelationProvider}
 import org.apache.spark.sql.types.StructType
@@ -21,15 +22,19 @@ class DefaultSource extends RelationProvider with SchemaRelationProvider with Cr
   override def createRelation(sqlContext: SQLContext,
                               parameters: Map[String, String],
                               schema: StructType): BaseRelation = {
-    val email = param(parameters, "email")
-    val password = param(parameters, "password")
-    val zoql = param(parameters, "zoql")
-    val instanceUrl = parameters.getOrElse("instanceURL", "https://rest.zuora.com")
-    val apiVersion = parameters.getOrElse("apiVersion", "38.0")
+    val marketoInput = new MarketoInput
+    marketoInput.clientId = param(parameters, "clientId")
+    marketoInput.clientSecret = param(parameters, "clientSecret")
+    marketoInput.instanceUrl = param(parameters, "instanceURL")
+    marketoInput.objectToBeQueried = param(parameters, "object")
+    marketoInput.filterType = paramValue(parameters, "filterType")
+    marketoInput.filterValues = paramValue(parameters, "filterValues")
+    marketoInput.customObject = parameters.getOrElse("customObject", "false")
+    marketoInput.apiVersion = parameters.getOrElse("apiVersion", "v1")
 
-    // TODO
-    val pageSizeParam = parameters.getOrElse("pageSize", "1000")
-    val pageSize = pageSizeParam.toInt
+    val pageSizeParam = parameters.getOrElse("pageSize", "300")
+    marketoInput.pageSize = pageSizeParam.toInt
+
 
     val records : List[mutable.Map[String, String]] = null
     new DatasetRelation(records, sqlContext, schema)
@@ -39,20 +44,30 @@ class DefaultSource extends RelationProvider with SchemaRelationProvider with Cr
                               mode: SaveMode,
                               parameters: Map[String, String],
                               data: DataFrame): BaseRelation = {
-    logger.error("Save not supported by Zuora connector")
+    logger.error("Save not supported by Marketo connector")
     throw new UnsupportedOperationException
   }
 
   private def param(parameters: Map[String, String],
                     paramName: String) : String = {
     val paramValue = parameters.getOrElse(paramName,
-      sys.error(s"""'$paramName' must be specified for Spark Zuora package"""))
+      sys.error(s"""'$paramName' must be specified for Spark Marketo package"""))
 
-    if ("password".equals(paramName)) {
+    if (!"clientSecret".equals(paramName)) {
       logger.debug("Param " + paramName + " value " + paramValue)
     }
 
     paramValue
+  }
+
+  private def paramValue(parameters: Map[String, String],
+                    paramName: String) : String = {
+    val paramValue = parameters.get(paramName)
+    if (paramValue != null && paramValue.isDefined) {
+      paramValue.get
+    } else {
+      null
+    }
   }
 
 }
