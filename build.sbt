@@ -12,9 +12,11 @@ resolvers += "sonatype-snapshots" at "https://oss.sonatype.org/content/repositor
 resolvers += "Spark Package Main Repo" at "https://dl.bintray.com/spark-packages/maven"
 
 libraryDependencies ++= Seq(
+  "com.springml" % "marketo-rest-client" % "1.0.0",
   "org.mockito" % "mockito-core" % "2.1.0-RC.1",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test"
 )
+
 
 parallelExecution in Test := false
 
