@@ -1,15 +1,16 @@
 package com.springml.spark.marketo
 
+import java.util.{List, Map}
 import java.math.BigDecimal
 import java.sql.{Date, Timestamp}
+
+import scala.collection.JavaConversions._
 
 import org.apache.log4j.Logger
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.sources.{BaseRelation, TableScan}
 import org.apache.spark.sql.types._
 import org.apache.spark.sql.{Row, SQLContext}
-
-import scala.collection.mutable
 
 /**
   * DatasetRelation class
@@ -18,7 +19,7 @@ import scala.collection.mutable
   * @param userSchema
   */
 class DatasetRelation(
-                       records : List[mutable.Map[String, String]],
+                       records : List[Map[String, String]],
                        sparkSqlContext : SQLContext,
                        userSchema : StructType
                      ) extends BaseRelation with TableScan {
@@ -42,7 +43,7 @@ class DatasetRelation(
 
       StructType(structFields)
     } else {
-      StructType(List.empty)
+      StructType(scala.List.empty)
     }
   }
 

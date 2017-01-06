@@ -1,5 +1,7 @@
 package com.springml.spark.marketo
 
+import java.util.{List, Map}
+
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
 import org.apache.spark.sql.{Row, SQLContext}
@@ -9,6 +11,7 @@ import org.scalatest.{BeforeAndAfterEach, FunSuite}
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
+import scala.collection.JavaConversions._
 
 /**
   * Created by sam on 8/12/16.
@@ -29,14 +32,14 @@ class DatasetRelationTest extends FunSuite with MockitoSugar with BeforeAndAfter
     sc = new SparkContext(sparkConf)
   }
 
-  private def getRecords : List[scala.collection.mutable.Map[String, String]] = {
-    var resultListBuf = new ListBuffer[scala.collection.mutable.Map[String, String]]()
+  private def getRecords : List[Map[String, String]] = {
+    var resultListBuf = new ListBuffer[Map[String, String]]()
     resultListBuf += getRecord()
 
     resultListBuf.toList
   }
 
-  private def getRecord(): scala.collection.mutable.Map[String, String] = {
+  private def getRecord(): Map[String, String] = {
     mutable.Map(STR_FIELD_NAME -> STR_FIELD_VALUE, INT_FIELD_NAME -> INT_FIELD_STR_VALUE)
   }
 

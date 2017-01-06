@@ -6,8 +6,6 @@ import org.apache.spark.sql.sources.{BaseRelation, CreatableRelationProvider, Re
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{DataFrame, SQLContext, SaveMode}
 
-import scala.collection.mutable
-
 /**
   * DefaultSource for Spark Marketo Connector
   */
@@ -35,8 +33,7 @@ class DefaultSource extends RelationProvider with SchemaRelationProvider with Cr
     val pageSizeParam = parameters.getOrElse("pageSize", "300")
     marketoInput.pageSize = pageSizeParam.toInt
 
-
-    val records : List[mutable.Map[String, String]] = null
+    val records = new MarketoReader read(marketoInput)
     new DatasetRelation(records, sqlContext, schema)
   }
 

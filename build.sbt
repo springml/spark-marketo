@@ -13,6 +13,8 @@ resolvers += "Spark Package Main Repo" at "https://dl.bintray.com/spark-packages
 
 libraryDependencies ++= Seq(
   "com.springml" % "marketo-rest-client" % "1.0.0",
+  "com.fasterxml.jackson.core" % "jackson-databind" % "2.8.5",
+  "com.fasterxml.jackson.module" % "jackson-module-scala_2.10" % "2.8.4",
   "org.mockito" % "mockito-core" % "2.1.0-RC.1",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test"
 )

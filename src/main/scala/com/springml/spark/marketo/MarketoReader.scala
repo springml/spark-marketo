@@ -2,6 +2,8 @@ package com.springml.spark.marketo
 
 import java.util.{List, Map}
 
+import scala.collection.JavaConversions._
+
 import com.springml.marketo.rest.client.MarketoClientFactory
 import com.springml.marketo.rest.client.model.{Error, QueryResult}
 import com.springml.spark.marketo.model.MarketoInput
@@ -48,7 +50,8 @@ class MarketoReader() {
     if (!queryResult.isSuccess) {
       logger.error("Error while querying data from Marketo")
       val errors = queryResult.getErrors
-      for (marketoError : Error <- errors) {
+
+      for (marketoError <- errors) {
         logger.error("Error code : " + marketoError.getCode)
         logger.error("Error message : " + marketoError.getMessage)
       }
