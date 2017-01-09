@@ -33,6 +33,10 @@ class DefaultSource extends RelationProvider with SchemaRelationProvider with Cr
     val pageSizeParam = parameters.getOrElse("pageSize", "300")
     marketoInput.pageSize = pageSizeParam.toInt
 
+    if (schema != null) {
+      marketoInput.fields = schema.fields.map(f => f.name).toList
+    }
+
     val records = new MarketoReader read(marketoInput)
     new DatasetRelation(records, sqlContext, schema)
   }

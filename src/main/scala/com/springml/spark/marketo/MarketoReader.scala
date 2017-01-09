@@ -26,14 +26,14 @@ class MarketoReader() {
   def readAllRecords(marketoInput: MarketoInput): List[Map[String, String]] = {
     val leadClient = MarketoClientFactory.getLeadDatabaseClient(marketoInput.clientId, marketoInput.clientSecret,
       marketoInput.instanceUrl, marketoInput.apiVersion)
-    leadClient.getAllRecords(marketoInput.objectToBeQueried)
+    leadClient.getAllRecords(marketoInput.objectToBeQueried, marketoInput.fields)
   }
 
   def queryRecords(marketoInput: MarketoInput): List[Map[String, String]] = {
     val leadClient = MarketoClientFactory.getLeadDatabaseClient(marketoInput.clientId, marketoInput.clientSecret,
       marketoInput.instanceUrl, marketoInput.apiVersion)
     var queryResult = leadClient.query(marketoInput.objectToBeQueried, marketoInput.filterType,
-      marketoInput.filterValues)
+      marketoInput.filterValues, marketoInput.fields)
 
     handleError(queryResult)
     val records = queryResult.getResult

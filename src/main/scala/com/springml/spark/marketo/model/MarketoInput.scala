@@ -10,6 +10,7 @@ class MarketoInput {
   var objectToBeQueried : String = null
   var filterType : String = null
   var filterValues : String = null
+  var fields: List[String] = List.empty
   var customObject : String = null
   var apiVersion : String = null
   var pageSize : Integer = 300
