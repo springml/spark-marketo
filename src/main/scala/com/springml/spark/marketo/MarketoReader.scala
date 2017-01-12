@@ -3,10 +3,11 @@ package com.springml.spark.marketo
 import java.util.{List, Map}
 
 import scala.collection.JavaConversions._
-
 import com.springml.marketo.rest.client.MarketoClientFactory
 import com.springml.marketo.rest.client.model.{Error, QueryResult}
 import com.springml.spark.marketo.model.MarketoInput
+import org.apache.commons.collections.CollectionUtils
+import org.apache.commons.lang.StringUtils
 import org.apache.log4j.Logger
 
 /**
@@ -16,11 +17,19 @@ class MarketoReader() {
   @transient val logger = Logger.getLogger(classOf[MarketoReader])
 
   def read(marketoInput: MarketoInput) : List[Map[String, String]] = {
-    if (marketoInput.filterType == null) {
-      readAllRecords(marketoInput)
-    } else {
-      queryRecords(marketoInput)
+    var records : List[Map[String, String]] = null
+
+    if (marketoInput.objectToBeQueried.equalsIgnoreCase("activities")) {
+      return readActivities(marketoInput)
     }
+
+    if (marketoInput.filterType == null) {
+      records = readAllRecords(marketoInput)
+    } else {
+      records = queryRecords(marketoInput)
+    }
+
+    records
   }
 
   def readAllRecords(marketoInput: MarketoInput): List[Map[String, String]] = {
@@ -44,6 +53,25 @@ class MarketoReader() {
     }
 
     records
+  }
+
+  private def readActivities(marketoInput: MarketoInput) : List[Map[String, String]] = {
+    if (!"activityTypeIds".equalsIgnoreCase(marketoInput.filterType)) {
+      sys.error("To query activities filterType should be activityTypeIds")
+    }
+
+    if (marketoInput.filterValues == null || marketoInput.filterValues.isEmpty) {
+      sys.error("To query activities activityTypeIds should be passed in filterValues")
+    }
+
+    if (StringUtils.isEmpty(marketoInput.sinceDateTime)) {
+      sys.error("sinceDateTime is mandatory to query activities. It has to be ISO 8601 standard date notation")
+    }
+
+    val leadClient = MarketoClientFactory.getLeadDatabaseClient(marketoInput.clientId, marketoInput.clientSecret,
+      marketoInput.instanceUrl, marketoInput.apiVersion)
+
+    leadClient.getActivities(marketoInput.sinceDateTime, marketoInput.filterValues.split(",").toList)
   }
 
   private def handleError(queryResult: QueryResult) : Unit = {
