@@ -28,6 +28,7 @@ class DefaultSource extends RelationProvider with SchemaRelationProvider with Cr
     marketoInput.filterType = paramValue(parameters, "filterType")
     marketoInput.filterValues = paramValue(parameters, "filterValues")
     marketoInput.sinceDateTime = paramValue(parameters, "sinceDateTime")
+    marketoInput.modifiedFields = paramValue(parameters, "modifiedFields")
     marketoInput.customObject = parameters.getOrElse("customObject", "false")
     marketoInput.apiVersion = parameters.getOrElse("apiVersion", "v1")
 

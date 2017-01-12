@@ -2,13 +2,13 @@ package com.springml.spark.marketo
 
 import java.util.{List, Map}
 
-import scala.collection.JavaConversions._
 import com.springml.marketo.rest.client.MarketoClientFactory
-import com.springml.marketo.rest.client.model.{Error, QueryResult}
+import com.springml.marketo.rest.client.model.QueryResult
 import com.springml.spark.marketo.model.MarketoInput
-import org.apache.commons.collections.CollectionUtils
 import org.apache.commons.lang.StringUtils
 import org.apache.log4j.Logger
+
+import scala.collection.JavaConversions._
 
 /**
   * Created by sam on 4/1/17.
@@ -21,6 +21,10 @@ class MarketoReader() {
 
     if (marketoInput.objectToBeQueried.equalsIgnoreCase("activities")) {
       return readActivities(marketoInput)
+    } else if (marketoInput.objectToBeQueried.contains("leadchanges")) {
+      return readLeadChangesActivities(marketoInput)
+    } else if (marketoInput.objectToBeQueried.contains("deletedleads")) {
+      return readDeletedLeadsActivities(marketoInput)
     }
 
     if (marketoInput.filterType == null) {
@@ -53,6 +57,33 @@ class MarketoReader() {
     }
 
     records
+  }
+
+  private def readLeadChangesActivities(marketoInput: MarketoInput) : List[Map[String, String]] = {
+    if (StringUtils.isEmpty(marketoInput.sinceDateTime)) {
+      sys.error("sinceDateTime is mandatory to query activities. It has to be ISO 8601 standard date notation")
+    }
+
+    if (StringUtils.isEmpty(marketoInput.modifiedFields)) {
+      sys.error("modifiedFields is mandatory to query Lead Changes Activities. " +
+        "Please specify it in comma separted format")
+    }
+
+    val leadClient = MarketoClientFactory.getLeadDatabaseClient(marketoInput.clientId, marketoInput.clientSecret,
+      marketoInput.instanceUrl, marketoInput.apiVersion)
+
+    leadClient.getLeadChangesActivites(marketoInput.sinceDateTime, marketoInput.modifiedFields.split(",").toList)
+  }
+
+  private def readDeletedLeadsActivities(marketoInput: MarketoInput) : List[Map[String, String]] = {
+    if (StringUtils.isEmpty(marketoInput.sinceDateTime)) {
+      sys.error("sinceDateTime is mandatory to query Deleted Lead Activities. It has to be ISO 8601 standard date notation")
+    }
+
+    val leadClient = MarketoClientFactory.getLeadDatabaseClient(marketoInput.clientId, marketoInput.clientSecret,
+      marketoInput.instanceUrl, marketoInput.apiVersion)
+
+    leadClient.getDeletedLeadsActivites(marketoInput.sinceDateTime)
   }
 
   private def readActivities(marketoInput: MarketoInput) : List[Map[String, String]] = {

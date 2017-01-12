@@ -15,4 +15,6 @@ class MarketoInput {
   var apiVersion : String = null
   var pageSize : Integer = 300
   var sinceDateTime: String = null
+  var modifiedFields :String = null
+
 }
