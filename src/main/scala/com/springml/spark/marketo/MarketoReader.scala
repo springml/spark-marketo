@@ -25,6 +25,8 @@ class MarketoReader() {
       return readLeadChangesActivities(marketoInput)
     } else if (marketoInput.objectToBeQueried.contains("deletedleads")) {
       return readDeletedLeadsActivities(marketoInput)
+    } else if (marketoInput.objectToBeQueried.equals("opportunities")) {
+      return readOpportunities(marketoInput)
     }
 
     if (marketoInput.filterType == null) {
@@ -57,6 +59,20 @@ class MarketoReader() {
     }
 
     records
+  }
+
+  private def readOpportunities(marketoInput: MarketoInput) : List[Map[String, String]] = {
+    if (StringUtils.isEmpty(marketoInput.filterType)) {
+      sys.error("filterType is mandatory parameter to get Marketo opportunities. " +
+        "Please provide searchableFields as filterType")
+    }
+
+    if (StringUtils.isEmpty(marketoInput.filterValues)) {
+      sys.error("filterValues is mandatory parameter to get Marketo opportunities. " +
+        "Please specify comma separated values")
+    }
+
+    queryRecords(marketoInput)
   }
 
   private def readLeadChangesActivities(marketoInput: MarketoInput) : List[Map[String, String]] = {
