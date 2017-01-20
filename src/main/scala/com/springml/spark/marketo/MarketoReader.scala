@@ -19,7 +19,9 @@ class MarketoReader() {
   def read(marketoInput: MarketoInput) : List[Map[String, String]] = {
     var records : List[Map[String, String]] = null
 
-    if (marketoInput.objectToBeQueried.equalsIgnoreCase("activities")) {
+    if (marketoInput.customObject) {
+      readCustomObjects(marketoInput)
+    } else if (marketoInput.objectToBeQueried.equalsIgnoreCase("activities")) {
       return readActivities(marketoInput)
     } else if (marketoInput.objectToBeQueried.contains("leadchanges")) {
       return readLeadChangesActivities(marketoInput)
@@ -61,6 +63,11 @@ class MarketoReader() {
     }
 
     records
+  }
+
+  private def readCustomObjects(marketoInput: MarketoInput) : List[Map[String, String]] = {
+    marketoInput.objectToBeQueried = "customobjects/" + marketoInput.objectToBeQueried
+    queryRecords(marketoInput)
   }
 
   private def readOpportunitiesRoles(marketoInput: MarketoInput) : List[Map[String, String]] = {

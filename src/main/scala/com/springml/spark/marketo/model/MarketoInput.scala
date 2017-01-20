@@ -11,7 +11,7 @@ class MarketoInput {
   var filterType : String = null
   var filterValues : String = null
   var fields: List[String] = List.empty
-  var customObject : String = null
+  var customObject : Boolean = false
   var apiVersion : String = null
   var pageSize : Integer = 300
   var sinceDateTime: String = null

@@ -29,7 +29,7 @@ class DefaultSource extends RelationProvider with SchemaRelationProvider with Cr
     marketoInput.filterValues = paramValue(parameters, "filterValues")
     marketoInput.sinceDateTime = paramValue(parameters, "sinceDateTime")
     marketoInput.modifiedFields = paramValue(parameters, "modifiedFields")
-    marketoInput.customObject = parameters.getOrElse("customObject", "false")
+    marketoInput.customObject = parameters.getOrElse("customObject", "false").toBoolean
     marketoInput.apiVersion = parameters.getOrElse("apiVersion", "v1")
 
     val pageSizeParam = parameters.getOrElse("pageSize", "300")
