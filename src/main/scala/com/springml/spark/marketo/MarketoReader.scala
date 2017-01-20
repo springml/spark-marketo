@@ -27,6 +27,8 @@ class MarketoReader() {
       return readDeletedLeadsActivities(marketoInput)
     } else if (marketoInput.objectToBeQueried.equals("opportunities")) {
       return readOpportunities(marketoInput)
+    } else if (marketoInput.objectToBeQueried.equals("roles")) {
+      return readOpportunitiesRoles(marketoInput)
     }
 
     if (marketoInput.filterType == null) {
@@ -59,6 +61,11 @@ class MarketoReader() {
     }
 
     records
+  }
+
+  private def readOpportunitiesRoles(marketoInput: MarketoInput) : List[Map[String, String]] = {
+    marketoInput.objectToBeQueried = "opportunities/roles"
+    readOpportunities(marketoInput)
   }
 
   private def readOpportunities(marketoInput: MarketoInput) : List[Map[String, String]] = {
