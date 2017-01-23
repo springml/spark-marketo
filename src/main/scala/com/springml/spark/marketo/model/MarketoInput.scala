@@ -13,7 +13,6 @@ class MarketoInput {
   var fields: List[String] = List.empty
   var customObject : Boolean = false
   var apiVersion : String = null
-  var pageSize : Integer = 300
   var sinceDateTime: String = null
   var modifiedFields :String = null
 

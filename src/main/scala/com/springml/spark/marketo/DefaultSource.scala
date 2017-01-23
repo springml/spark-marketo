@@ -32,9 +32,6 @@ class DefaultSource extends RelationProvider with SchemaRelationProvider with Cr
     marketoInput.customObject = parameters.getOrElse("customObject", "false").toBoolean
     marketoInput.apiVersion = parameters.getOrElse("apiVersion", "v1")
 
-    val pageSizeParam = parameters.getOrElse("pageSize", "300")
-    marketoInput.pageSize = pageSizeParam.toInt
-
     if (schema != null) {
       marketoInput.fields = schema.fields.map(f => f.name).toList
     }
