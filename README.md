@@ -40,7 +40,7 @@ $ bin/spark-shell --packages com.springml:spark-marketo_2.10:1.0.0
 * `object`: Object to be queried from Marketo. ex. leads
 * `filterType`: Filter field to be used. Optional for leads - If not provided all leads will be fetched
 * `filterValues`: Comma separated filter values to be applied (Optional - Needed only if filterType is specified)
-* `sinceDatetime` : (Optional) Datatime from which the data has to be fetched. It has to be in [ISO_8601](https://en.wikipedia.org/wiki/ISO_8601) format
+* `sinceDatetime` : (Optional) Datatime from which the data has to be fetched. It has to be in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format
 * `customObject`: (Optional) Boolean to specify if the specified object is custom object, Default value is false
 * `apiVersion`: (Optional) API Version to be used. Default value is `v1`
 * `modifiedFields`: (Optional) Fields to be considered for leadChanges. It has to be comma separated field names
@@ -56,9 +56,9 @@ import org.apache.spark.sql.SQLContext
 // Maximum of 300 values can be specified
 val df = sqlContext.read.
     format("com.springml.spark.marketo").
-    option("clientId", "a36c5936-79e4-4e22-9995-1c8088033663").
-    option("client_secret", "4kDFleFLinsCZWa6PEQ1JDt5AcmTGBPa").
-    option("instanceURL", "https://559-AGH-810.mktorest.com").
+    option("clientId", "a13b5932-69d4-1e25-4975-1d8788438662").
+    option("client_secret", "3jFFseHLihsCZWq6PEB4JDt5GcbTDBSg").
+    option("instanceURL", "https://119-AAA-888.mktorest.com").
     option("object", "leads").
     option("filterType", "Id").
     option("filterValues", "1,2,3").
@@ -67,9 +67,9 @@ val df = sqlContext.read.
 // Read all leads
 val df = sqlContext.read.
     format("com.springml.spark.marketo").
-    option("clientId", "a36c5936-79e4-4e22-9995-1c8088033663").
-    option("client_secret", "4kDFleFLinsCZWa6PEQ1JDt5AcmTGBPa").
-    option("instanceURL", "https://559-AGH-810.mktorest.com").
+    option("clientId", "a13b5932-69d4-1e25-4975-1d8788438662").
+    option("client_secret", "3jFFseHLihsCZWq6PEB4JDt5GcbTDBSg").
+    option("instanceURL", "https://119-AAA-888.mktorest.com").
     option("object", "leads").
     load()
 
@@ -78,9 +78,9 @@ val df = sqlContext.read.
 // And fetching acitivies after 2016-10-06
 val df = sqlContext.read.
     format("com.springml.spark.marketo").
-    option("clientId", "a36c5936-79e4-4e22-9995-1c8088033663").
-    option("client_secret", "4kDFleFLinsCZWa6PEQ1JDt5AcmTGBPa").
-    option("instanceURL", "https://559-AGH-810.mktorest.com").
+    option("clientId", "a13b5932-69d4-1e25-4975-1d8788438662").
+    option("client_secret", "3jFFseHLihsCZWq6PEB4JDt5GcbTDBSg").
+    option("instanceURL", "https://119-AAA-888.mktorest.com").
     option("object", "activities").
     option("filterType", "activityTypeIds").
     option("filterValues", "1,12").
@@ -95,9 +95,9 @@ Spark 1.6+:
 # Query all leads
 df <- read.df(sqlContext, 
       source="com.springml.spark.marketo", 
-      clientId="a36c5936-79e4-4e22-9995-1c8088033663", 
-      clientSecret="4kDFleFLinsCZWa6PEQ1JDt5AcmTGBPa", 
-      instanceURL="https://559-AGH-810.mktorest.com",
+      clientId="a13b5932-69d4-1e25-4975-1d8788438662", 
+      clientSecret="3jFFseHLihsCZWq6PEB4JDt5GcbTDBSg", 
+      instanceURL="https://119-AAA-888.mktorest.com",
       object="leads")
 
 # Query activities 
@@ -105,9 +105,9 @@ df <- read.df(sqlContext,
 # And fetching acitivies after 2016-10-06
 df <- read.df(sqlContext, 
       source="com.springml.spark.marketo", 
-      clientId="a36c5936-79e4-4e22-9995-1c8088033663", 
-      clientSecret="4kDFleFLinsCZWa6PEQ1JDt5AcmTGBPa", 
-      instanceURL="https://559-AGH-810.mktorest.com",
+      clientId="a13b5932-69d4-1e25-4975-1d8788438662", 
+      clientSecret="3jFFseHLihsCZWq6PEB4JDt5GcbTDBSg", 
+      instanceURL="https://119-AAA-888.mktorest.com",
       filterType="activityTypeIds",
       filterValues="1,12",
       sinceDateTime="2016-10-06",
@@ -117,9 +117,9 @@ df <- read.df(sqlContext,
 # Here fetching leadchanges from 2016-10-06 if there are any changes in firstname and email
 df <- read.df(sqlContext, 
       source="com.springml.spark.marketo", 
-      clientId="a36c5936-79e4-4e22-9995-1c8088033663", 
-      clientSecret="4kDFleFLinsCZWa6PEQ1JDt5AcmTGBPa", 
-      instanceURL="https://559-AGH-810.mktorest.com",
+      clientId="a13b5932-69d4-1e25-4975-1d8788438662", 
+      clientSecret="3jFFseHLihsCZWq6PEB4JDt5GcbTDBSg", 
+      instanceURL="https://119-AAA-888.mktorest.com",
       sinceDateTime="2016-10-06",
       modifiedFields="firstname,email",
       object="leadchanges")
@@ -127,18 +127,18 @@ df <- read.df(sqlContext,
 # Query deleted leads
 df <- read.df(sqlContext, 
       source="com.springml.spark.marketo", 
-      clientId="a36c5936-79e4-4e22-9995-1c8088033663", 
-      clientSecret="4kDFleFLinsCZWa6PEQ1JDt5AcmTGBPa", 
-      instanceURL="https://559-AGH-810.mktorest.com",
+      clientId="a13b5932-69d4-1e25-4975-1d8788438662", 
+      clientSecret="3jFFseHLihsCZWq6PEB4JDt5GcbTDBSg", 
+      instanceURL="https://119-AAA-888.mktorest.com",
       sinceDateTime="2016-10-06",
       object="deletedleads")
 
 # Query opportunity roles
 df <- read.df(sqlContext, 
       source="com.springml.spark.marketo", 
-      clientId="a36c5936-79e4-4e22-9995-1c8088033663", 
-      clientSecret="4kDFleFLinsCZWa6PEQ1JDt5AcmTGBPa", 
-      instanceURL="https://559-AGH-810.mktorest.com",
+      clientId="a13b5932-69d4-1e25-4975-1d8788438662", 
+      clientSecret="3jFFseHLihsCZWq6PEB4JDt5GcbTDBSg", 
+      instanceURL="https://119-AAA-888.mktorest.com",
       filterType="marketoGUID",
       filterValues="755a1902-640b-4a05-ba30-7e6e20d21502",
       object="roles")
@@ -148,9 +148,9 @@ df <- read.df(sqlContext,
 # 'type' is a field in cars custom object 
 df <- read.df(sqlContext, 
       source="com.springml.spark.marketo", 
-      clientId="a36c5936-79e4-4e22-9995-1c8088033663", 
-      clientSecret="4kDFleFLinsCZWa6PEQ1JDt5AcmTGBPa", 
-      instanceURL="https://559-AGH-810.mktorest.com",
+      clientId="a13b5932-69d4-1e25-4975-1d8788438662", 
+      clientSecret="3jFFseHLihsCZWq6PEB4JDt5GcbTDBSg", 
+      instanceURL="https://119-AAA-888.mktorest.com",
       filterType="type",
       filterValues="saloon,cross",
       customObject="true",
@@ -159,9 +159,9 @@ df <- read.df(sqlContext,
 # Query Companies
 df <- read.df(sqlContext, 
       source="com.springml.spark.marketo", 
-      clientId="a36c5936-79e4-4e22-9995-1c8088033663", 
-      clientSecret="4kDFleFLinsCZWa6PEQ1JDt5AcmTGBPa", 
-      instanceURL="https://559-AGH-810.mktorest.com",
+      clientId="a13b5932-69d4-1e25-4975-1d8788438662", 
+      clientSecret="3jFFseHLihsCZWq6PEB4JDt5GcbTDBSg", 
+      instanceURL="https://119-AAA-888.mktorest.com",
       filterType="company",
       filterValues="SpringML",
       object="companies")
