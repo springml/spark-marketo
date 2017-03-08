@@ -1,8 +1,8 @@
 name := "spark-marketo"
-version := "1.0.0"
+version := "1.1.0"
 organization := "com.springml"
 
-scalaVersion := "2.10.6"
+scalaVersion := "2.11.8"
 
 resolvers += "bintray-spark-packages" at "https://dl.bintray.com/spark-packages/maven/"
 resolvers += Resolver.url("artifactory", url("http://scalasbt.artifactoryonline.com/scalasbt/sbt-plugin-releases"))(Resolver.ivyStylePatterns)
@@ -13,8 +13,8 @@ resolvers += "Spark Package Main Repo" at "https://dl.bintray.com/spark-packages
 
 libraryDependencies ++= Seq(
   "com.springml" % "marketo-rest-client" % "1.0.0",
-  "com.fasterxml.jackson.core" % "jackson-databind" % "2.8.5",
-  "com.fasterxml.jackson.module" % "jackson-module-scala_2.10" % "2.8.4",
+  "com.fasterxml.jackson.core" % "jackson-databind" % "2.8.7",
+  "com.fasterxml.jackson.module" % "jackson-module-scala_2.11" % "2.8.7",
   "org.mockito" % "mockito-core" % "2.1.0-RC.1",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test"
 )
@@ -25,7 +25,7 @@ parallelExecution in Test := false
 // Spark Package Details (sbt-spark-package)
 spName := "springml/spark-marketo"
 spAppendScalaVersion := true
-sparkVersion := "1.6.2"
+sparkVersion := "2.1.0"
 sparkComponents += "sql"
 
 assemblyMergeStrategy in assembly := {
